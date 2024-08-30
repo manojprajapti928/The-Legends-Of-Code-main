@@ -1,5 +1,6 @@
-// Home.jsx
-import React,{useState,useEffect} from 'react';
+
+
+import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,30 +8,30 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
+import Button from '@mui/material/Button';
 import axios from 'axios';
 
-
-
-
-
-
 export default function Home() {
+  let [Users, SetUsers] = useState([]);
 
-    let [Users,SetUsers] = useState([]);
+  useEffect(() => {
+    async function FetchData() {
+      try {
+        let Data = await axios.get("http://localhost:5100/api/users");
+        SetUsers(Data.data);
+        console.log(Data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    FetchData();
+  }, []);
 
-    useEffect(()=>{
-        async function FetchData() 
-        {
-
-            let Data = await axios.get("http://localhost:5100/api/users");
-            SetUsers(Data.data);
-            console.log(Data.data)
-            
-        }
-        FetchData()
-
-    },[])
+  // Function to handle delete
+  function handleDelete(e,i) {
+    const updatedUsers = Users.filter((user) => user.id !== i);
+    SetUsers(updatedUsers);
+  }
 
   return (
     <div>
@@ -45,12 +46,13 @@ export default function Home() {
                 <TableCell align="right">Email</TableCell>
                 <TableCell align="right">Phone</TableCell>
                 <TableCell align="right">Salary</TableCell>
+                <TableCell align="right">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {Users.map((row) => (
                 <TableRow
-                  key={row.name}
+                  key={row.id} 
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
@@ -60,6 +62,15 @@ export default function Home() {
                   <TableCell align="right">{row.email}</TableCell>
                   <TableCell align="right">{row.phone}</TableCell>
                   <TableCell align="right">₹{row.salary}</TableCell>
+                  <TableCell align="right">
+                    <Button 
+                      variant="contained" 
+                      color="secondary" 
+                      onClick={(e) => handleDelete(row.id)} // Correct onClick handler
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

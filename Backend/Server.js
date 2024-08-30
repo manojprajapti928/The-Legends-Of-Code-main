@@ -7,8 +7,8 @@ const app = express();
 const port = 5100;
 
 app.use(cors());
-app.use(express.json()); // Replaces bodyParser.json()
-app.use(express.urlencoded({ extended: true })); // If you're handling form data
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
 // DataBase Configuration:
 mongoose.connect("mongodb://localhost:27017/TestDb")
@@ -26,7 +26,7 @@ app.get('/api/users', async (req, res) => {
 });
 
 app.post('/api/addUser', async (req, res) => {
-  console.log(req.body); // Debugging output
+  console.log(req.body); 
 
   const { FormData } = req.body;
 
