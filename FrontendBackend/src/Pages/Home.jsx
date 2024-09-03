@@ -1,15 +1,13 @@
-
-
-import React, { useState, useEffect } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import axios from "axios";
 
 export default function Home() {
   let [Users, SetUsers] = useState([]);
@@ -28,9 +26,9 @@ export default function Home() {
   }, []);
 
   // Function to handle delete
-  function handleDelete(e,i) {
-    const updatedUsers = Users.filter((user) => user.id !== i);
-    SetUsers(updatedUsers);
+  function handleDelete(id) {
+   let remove = Users.filter(item=>item.id !== id);
+   SetUsers(remove)
   }
 
   return (
@@ -41,6 +39,8 @@ export default function Home() {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
+                
+                <TableCell  align="right">Id</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell align="right">Age</TableCell>
                 <TableCell align="right">Email</TableCell>
@@ -52,21 +52,23 @@ export default function Home() {
             <TableBody>
               {Users.map((row) => (
                 <TableRow
-                  key={row.id} 
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  key={row.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
+                  <TableCell align="right">{row.id}</TableCell>
                   <TableCell component="th" scope="row">
                     {row.name}
                   </TableCell>
+                  
                   <TableCell align="right">{row.age}</TableCell>
                   <TableCell align="right">{row.email}</TableCell>
                   <TableCell align="right">{row.phone}</TableCell>
                   <TableCell align="right">₹{row.salary}</TableCell>
                   <TableCell align="right">
-                    <Button 
-                      variant="contained" 
-                      color="secondary" 
-                      onClick={(e) => handleDelete(row.id)} // Correct onClick handler
+                  <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleDelete(row.id)} 
                     >
                       Delete
                     </Button>

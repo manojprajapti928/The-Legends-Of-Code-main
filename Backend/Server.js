@@ -35,6 +35,7 @@ app.post('/api/addUser', async (req, res) => {
   }
 
   let Data = {
+    id : parseInt(FormData.id),
     name: FormData.name,
     age: parseInt(FormData.age),
     email: FormData.email,
@@ -45,7 +46,7 @@ app.post('/api/addUser', async (req, res) => {
   console.log(Data);
   const newUser = new User(Data);
   await newUser.save();
-  res.status(201).json(newUser); // Send a response after saving
+  res.json({"Done":true}) // Send a response after saving
 });
 
 // Server Listening:
